@@ -1,0 +1,21 @@
+Chart 1 shows the proportion of each place/area within each population class and the total population within each population class.
+The total population of all areas that have a population of 10,000-49,999 is just under 70 million. The majority of these areas are cities.
+The next most populous area after cities is Census Designated places.
+
+Code for Chart 1
+```{r}
+library("tidyverse")
+library("tidylog")
+library("janitor")
+library("foreign")
+#Read CSV & group by class & pop_class
+data <- read_csv("USA_Census_Populated_Place_Areas.csv") |>
+  clean_names() |>
+  group_by(class, pop_class) |>
+  summarize(total=sum(population)) 
+#Plot single graph that shows total population for each population class
+  ggplot(data) +
+  geom_col(aes(x=pop_class, y=total, fill=class)) +
+     scale_y_continuous(labels = scales::label_comma()) +
+    scale_x_continuous(n.breaks=9) +
+    labs(x="Population Class", y="Population Total", caption="Data from U.S. Energy Atalas \n https://atlas.eia.gov/datasets/esri::usa-census-populated-place-areas-1/about") 
