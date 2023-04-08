@@ -1,0 +1,78 @@
+The remaining charts show the total population for each population class in each type of place/area.
+There are no Census Designated Places and towns with a population greater than or equal to 500,000. 
+There are no villages with a population greater than or equal to 100,000.
+There are no unknown areas with a population less than 250.
+All municipalities have a population of 10,000-49,999 or 250,000-499,999. The total of all muncipalities with a population of 250,000-499,999 is under 300,000. Thus there is only 1 municipality with a population of 250,000-499,999.
+All areas classified as a city & borough have a population between 1,000-49,999.
+
+A problem that I ran into was the charts not showing all population classes. It only showed the population classes that had data. This isn't necessarily a bad thing but I would have liked to shown the empty classes easily within the charts. I also would have liked to developed a function that would filter and print the chart for the specific area/place without having to manually filter the data and print each graph. I haven't had much experience with writing custom functions so hopefully that is something that I can develop later on.
+
+Code
+``` {r}
+library("cowplot")
+
+cdp <- data |> filter(class=="Census Designated Place")
+city <- data |> filter(class=="city")
+town <- data |> filter(class=="town")
+vill <- data |> filter(class=="village")
+boro <- data |> filter(class=="borough")
+unk <- data |> filter(class=="unknown")
+muni <- data |> filter(class=="municipality")
+c_b <- data |> filter(class=="city and borough")
+
+plot_cdp <- ggplot(cdp) +
+  geom_col(aes(x=pop_class, y=total)) +
+  scale_y_continuous(labels=scales::label_comma()) +
+  scale_x_continuous(n.breaks=10) +
+  labs(x="Population Class", y="Population Total", title="Census Designated Place") 
+
+plot_city <- ggplot(city) +
+  geom_col(aes(x=pop_class, y=total)) +
+  scale_y_continuous(labels=scales::label_comma()) +
+  scale_x_continuous(n.breaks=10) +
+  labs(x="Population Class", y="Population Total", title="City")
+
+plot_town <- ggplot(town) +
+  geom_col(aes(x=pop_class, y=total)) +
+  scale_y_continuous(labels=scales::label_comma()) +
+  scale_x_continuous(n.breaks=10) +
+  labs(x="Population Class", y="Population Total", title="Town")
+
+plot_vill <- ggplot(vill) +
+  geom_col(aes(x=pop_class, y=total)) +
+  scale_y_continuous(labels=scales::label_comma()) +
+  scale_x_continuous(n.breaks=10) +
+  labs(x="Population Class", y="Population Total", title="Village")
+
+plot_boro <- ggplot(boro) +
+  geom_col(aes(x=pop_class, y=total)) +
+  scale_y_continuous(labels=scales::label_comma()) +
+  scale_x_continuous(n.breaks=10) +
+  labs(x="Population Class", y="Population Total", title="Borough")
+
+plot_unk <- ggplot(unk) +
+  geom_col(aes(x=pop_class, y=total)) +
+  scale_y_continuous(labels=scales::label_comma()) +
+  scale_x_continuous(n.breaks=10) +
+  labs(x="Population Class", y="Population Total", title="Unknown")
+
+plot_muni <- ggplot(muni) +
+  geom_col(aes(x=pop_class, y=total), width=0.5) +
+  scale_y_continuous(labels=scales::label_comma()) +
+  labs(x="Population Class", y="Population Total", title="Municipality")
+
+plot_c_b <- ggplot(c_b) +
+  geom_col(aes(x=pop_class, y=total), width=0.5) +
+  scale_y_continuous(labels=scales::label_comma()) +
+  scale_x_continuous(n.breaks=3) +
+  labs(x="Population Class", y="Population Total", title="City & Borough")
+
+print(plot_cdp)
+print(plot_city)
+print(plot_town) 
+print(plot_vill) 
+print(plot_boro) 
+print(plot_unk) 
+print(plot_muni) 
+print(plot_c_b)
+```
