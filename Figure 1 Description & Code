@@ -1,0 +1,10 @@
+Figure 1 shows the total population for each population class spilt by the type of area/place. Given the large population for cities and Census Designated Places these graphs aren't very helpful for seeing the total population for other areas/places.
+
+Code for Figure 1
+ #Plot multiple graphs that show total population for each population class separtated by location class 
+  ggplot(data) +
+  geom_col(aes(x=pop_class, y=total)) +
+    facet_wrap(vars(class), ncol=4) +
+     scale_y_continuous(labels = scales::label_comma()) +
+      scale_x_continuous(n.breaks=9) +
+  labs(x="Population Class", y="Population Total", caption="Data from U.S. Energy Atalas \n https://atlas.eia.gov/datasets/esri::usa-census-populated-place-areas-1/about")
